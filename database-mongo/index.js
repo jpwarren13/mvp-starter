@@ -11,14 +11,14 @@ db.once('open', function() {
   console.log('mongoose connected successfully');
 });
 
-var itemSchema = mongoose.Schema({
-  quantity: Number,
-  description: String
+var textSchema = mongoose.Schema({
+  phoneNumber: String,
+  smsMessage: String
 });
 
-var Item = mongoose.model('Item', itemSchema);
+var Text = mongoose.model('Text', textSchema);
 
-var selectAll = function(callback) {
+let selectAll = function(callback) {
   Item.find({}, function(err, items) {
     if(err) {
       callback(err, null);
@@ -28,4 +28,24 @@ var selectAll = function(callback) {
   });
 };
 
+let insertMessage = (message, callback) => {
+  const newMessage = {
+    phoneNumber: message.phoneNumber.toString(),
+    smsMessage: message.smsMessage,
+  }
+
+  let insertMessage = new Text(newMessage);
+
+  insertMessage.save((err, data) => {
+    if (err){
+      throw err;
+    }else {
+      console.log("Inside the database here is the data: ", data)
+      callback(data);
+      db.close();
+    }
+  })
+} 
+
 module.exports.selectAll = selectAll;
+module.exports.insertMessage = insertMessage;

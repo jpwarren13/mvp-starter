@@ -29,12 +29,12 @@ class App extends React.Component {
     });
   }
 
-  sendMessage(phoneNumber, message){
-    console.log('Inside sendMessage', phoneNumber, message);
+  sendMessage(phoneNumber, smsMessage){
+    console.log('Inside sendMessage', phoneNumber, smsMessage);
     const options = {
       method: 'post',
-      url:'http://127.0.0.1:3000/sms',
-      data: {phoneNumber, message},
+      url:'http://127.0.0.1:3000/smsout',
+      data: {phoneNumber, smsMessage},
     }
 
     axios(options).then(response => console.log(response))
