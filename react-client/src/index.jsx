@@ -15,30 +15,21 @@ class App extends React.Component {
     this.sendMessage.bind(this);
   }
 
-  componentDidMount() {
-    const options = {
-      method: 'get',
-      url: 'http://127.0.0.1:3000/recieveTexts',
-    }
 
-  axios(options).then(response =>{
-    console.log('[CLIENT] COMPONENT DID MOUNT', response);
-    this.setState({texts: response.data})
-  });
-    // $.ajax({
-    //   type: "GET",
-    //   url: '/recieveTexts', 
-    //   success: (data) => {
-    //     console.log('[CLIENT]########COMPONENT DID MOUNT', data)
-    //     this.setState({
-    //       items: data
-    //     })
-    //   },
-    //   error: (err) => {
-    //     console.log('err', err);
-    //   }
-    // });
+  componentDidMount(){
+    axios({
+      method:'get',
+      url:'http://127.0.0.1:3000/recieveTexts',
+    }).then(response => {
+      console.log(response, "comp did mount");
+      this.setState({texts: response.data});
+    })
   }
+  
+
+ 
+
+
 
   sendMessage(phoneNumber, smsMessage){
     console.log('[CLIENT]: Inside sendMessage', phoneNumber, smsMessage);
@@ -49,10 +40,12 @@ class App extends React.Component {
     }
 
     axios(options).then(response =>{
+      console.log('############[SENDING MESSAGE RESPONE]', response)
       axios({
         method:'get',
         url:'http://127.0.0.1:3000/recieveTexts',
       }).then(response => {
+        this.setState({texts: response.data});
         console.log('[CLIENT] BACK TO SERVER', response);
       })
     })

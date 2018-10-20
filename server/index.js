@@ -26,7 +26,8 @@ app.use(bodyParser.json())
 
 //EXPRESS ROUTES/
 app.post('/smsout', (req, res) => {
-  let phoneNumber = req.body.phoneNumber;
+  let rawNumber = req.body.phoneNumber.replace(/[^0-9]/g, '');
+  let phoneNumber = '+1' + rawNumber;
   let smsMessage = req.body.smsMessage;
   let outgoing = true;
 
@@ -43,7 +44,7 @@ app.post('/smsout', (req, res) => {
     })
     //console.log(message);
 
-  }).done();
+  });
   
 //   const twiml = new MessagingResponse();
 // ``
@@ -54,7 +55,8 @@ app.post('/smsout', (req, res) => {
 });
 
 app.post('/smsin', (req, res) => {
-  let phoneNumber = req.body.From;
+  let rawNumber = req.body.phoneNumber.replace(/[^0-9]/g, '');
+  let phoneNumber = '+1' + rawNumber;
   let smsMessage = req.body.Body;
   let outgoing = false;
 

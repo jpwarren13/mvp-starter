@@ -30,23 +30,34 @@ let selectAll = function(callback) {
 };
 
 let insertMessage = (message, callback) => {
+  console.log('[DATABASE] trying to save to database', message);
   const newMessage = {
     phoneNumber: message.phoneNumber.toString(),
     smsMessage: message.smsMessage,
     outgoing: message.outgoing,
   }
 
-  let insertMessage = new Text(newMessage);
+  const mess = new Text(newMessage);
 
-  insertMessage.save((err, data) => {
-    if (err){
-      throw err;
-    }else {
-      console.log("[DATABASE] Inside the database here is the data: ", data)
-      callback(data);
-      db.close();
-    }
-  })
+  // db.Text.insert(newMessage, (err, data)=> {
+  //   if (err){
+  //     throw err;
+  //   }else {
+  //     console.log("[DATABASE] Inside the database here is the data: ", data)
+  //     callback(data);
+  //     db.close();
+  //   }
+  // })
+  mess.save((err, data)=> {
+  if (err){
+    throw err;
+  }else {
+    console.log("[DATABASE] Inside the database here is the data: ", data)
+    callback(data);
+    //db.close();
+  }
+})
+
 } 
 
 module.exports.selectAll = selectAll;
