@@ -13,17 +13,18 @@ db.once('open', function() {
 
 var textSchema = mongoose.Schema({
   phoneNumber: String,
-  smsMessage: String
+  smsMessage: String,
+  outgoing: Boolean,
 });
 
 var Text = mongoose.model('Text', textSchema);
 
 let selectAll = function(callback) {
-  Item.find({}, function(err, items) {
+  Text.find({}, function(err, texts) {
     if(err) {
       callback(err, null);
     } else {
-      callback(null, items);
+      callback(null, texts);
     }
   });
 };
@@ -32,6 +33,7 @@ let insertMessage = (message, callback) => {
   const newMessage = {
     phoneNumber: message.phoneNumber.toString(),
     smsMessage: message.smsMessage,
+    outgoing: message.outgoing,
   }
 
   let insertMessage = new Text(newMessage);
@@ -40,7 +42,7 @@ let insertMessage = (message, callback) => {
     if (err){
       throw err;
     }else {
-      console.log("Inside the database here is the data: ", data)
+      console.log("[DATABASE] Inside the database here is the data: ", data)
       callback(data);
       db.close();
     }

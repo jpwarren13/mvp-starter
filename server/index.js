@@ -26,15 +26,19 @@ app.use(bodyParser.json())
 
 //EXPRESS ROUTES/
 app.post('/smsout', (req, res) => {
+  let phoneNumber = req.body.phoneNumber;
+  let smsMessage = req.body.smsMessage;
+  let outgoing = true;
+
   console.log(req.body);
   client.messages.create({
-    body: req.body.smsMessage,
+    body: smsMessage,
     from: '+18052259359',
-    to:'+15122996249'
+    to: phoneNumber,
   }).then(message => {
     //save to database
     //console.log('message sent: ', message);
-    db.insertMessage(req.body, () => {
+    db.insertMessage({phoneNumber, smsMessage, outgoing}, () => {
       res.status(200).end();
     })
     //console.log(message);
@@ -50,38 +54,37 @@ app.post('/smsout', (req, res) => {
 });
 
 app.post('/smsin', (req, res) => {
-  phoneNumber = req.body.From;
-  smsMessage = req.body.Body;
+  let phoneNumber = req.body.From;
+  let smsMessage = req.body.Body;
+  let outgoing = false;
 
-  console.log('Phone number and smsMessage coming in!!', phoneNumber, smsMessage);
 
-  const incomingMessage = {
-    phoneNumber: req.body.From,
-    smsMessage: req.body.Body,
-  }
+  console.log('[SERVER] Phone number and smsMessage coming in!!', phoneNumber, smsMessage);
 
-  db.insertMessage(incomingMessage, () => {
+  // const incomingMessage = {
+  //   phoneNumber: phoneNumber,
+  //   smsMessage: smsMessage,
+  //   outgoing: false,
+  // }
 
+  db.insertMessage({phoneNumber, smsMessage, outgoing}, () => {
+    res.end();
   })
 
-  const twiml = new MessagingResponse();
+  // const twiml = new MessagingResponse();
 
-  twiml.message('The Robots are coming! Head for the hills!');
+  // twiml.message('The Robots are coming! Head for the hills!');
 
-  res.writeHead(200, {'Content-Type': 'text/xml'});
-  res.end(twiml.toString());
 });
 
 
-// app.get('/items', function (req, res) {
-//   items.selectAll(function(err, data) {
-//     if(err) {
-//       res.sendStatus(500);
-//     } else {
-//       res.json(data):
-//     }
-//   });
-// });
+app.get('/recieveTexts', function (req, res) {
+  console.log("asking for texts!");
+  db.selectAll((err, texts) => {
+    console.log("[SERVER] received texts from database on server", texts);
+  })
+  //db.selectAll();
+});
 
 app.get('*', (req,res)=>{
   //console.log(req.body);

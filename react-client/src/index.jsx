@@ -10,15 +10,17 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = { 
-      items: []
+      texts: []
     }
     this.sendMessage.bind(this);
   }
 
   componentDidMount() {
     $.ajax({
-      url: '/items', 
+      type: "GET",
+      url: '/recieveTexts', 
       success: (data) => {
+        console.log('[CLIENT]########COMPONENT DID MOUNT', data)
         this.setState({
           items: data
         })
@@ -30,14 +32,19 @@ class App extends React.Component {
   }
 
   sendMessage(phoneNumber, smsMessage){
-    console.log('Inside sendMessage', phoneNumber, smsMessage);
+    console.log('[CLIENT]: Inside sendMessage', phoneNumber, smsMessage);
     const options = {
       method: 'post',
       url:'http://127.0.0.1:3000/smsout',
-      data: {phoneNumber, smsMessage},
+      data: {phoneNumber, smsMessage, outgoing: true},
     }
 
-    axios(options).then(response => console.log(response))
+    axios(options).then(response =>{
+      axios({
+        method:'get',
+        url:'http://127.0.0.1:3000/recieveTexts',
+      }).then()
+    })
   }
 
   render () {
