@@ -39,7 +39,7 @@ app.post('/smsout', (req, res) => {
     //save to database
     //console.log('message sent: ', message);
     db.insertMessage({phoneNumber, smsMessage, outgoing}, () => {
-      res.status(200).end();
+      res.status(201).end();
     })
     //console.log(message);
 
@@ -68,7 +68,7 @@ app.post('/smsin', (req, res) => {
   // }
 
   db.insertMessage({phoneNumber, smsMessage, outgoing}, () => {
-    res.end();
+    res.status(201).end();
   })
 
   // const twiml = new MessagingResponse();
@@ -82,6 +82,7 @@ app.get('/recieveTexts', function (req, res) {
   console.log("asking for texts!");
   db.selectAll((err, texts) => {
     console.log("[SERVER] received texts from database on server", texts);
+    res.status(200).send(texts);
   })
   //db.selectAll();
 });

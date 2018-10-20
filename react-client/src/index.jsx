@@ -16,19 +16,28 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    $.ajax({
-      type: "GET",
-      url: '/recieveTexts', 
-      success: (data) => {
-        console.log('[CLIENT]########COMPONENT DID MOUNT', data)
-        this.setState({
-          items: data
-        })
-      },
-      error: (err) => {
-        console.log('err', err);
-      }
-    });
+    const options = {
+      method: 'get',
+      url: 'http://127.0.0.1:3000/recieveTexts',
+    }
+
+  axios(options).then(response =>{
+    console.log('[CLIENT] COMPONENT DID MOUNT', response);
+    this.setState({texts: response.data})
+  });
+    // $.ajax({
+    //   type: "GET",
+    //   url: '/recieveTexts', 
+    //   success: (data) => {
+    //     console.log('[CLIENT]########COMPONENT DID MOUNT', data)
+    //     this.setState({
+    //       items: data
+    //     })
+    //   },
+    //   error: (err) => {
+    //     console.log('err', err);
+    //   }
+    // });
   }
 
   sendMessage(phoneNumber, smsMessage){
@@ -43,7 +52,9 @@ class App extends React.Component {
       axios({
         method:'get',
         url:'http://127.0.0.1:3000/recieveTexts',
-      }).then()
+      }).then(response => {
+        console.log('[CLIENT] BACK TO SERVER', response);
+      })
     })
   }
 
@@ -51,7 +62,7 @@ class App extends React.Component {
     return (<div>
       <h1>Send a Message</h1>
       <Message sendMessage={this.sendMessage}/>
-      {/* <List items={this.state.items}/> */}
+      <List texts={this.state.texts}/>
     </div>)
   }
 }
