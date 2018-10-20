@@ -53,7 +53,7 @@ let insertMessage = (message, callback) => {
     throw err;
   }else {
     console.log("[DATABASE] Inside the database here is the data: ", data)
-    callback(data);
+    callback(null, data);
     //db.close();
   }
 })
