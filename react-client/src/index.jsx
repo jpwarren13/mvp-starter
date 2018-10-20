@@ -62,7 +62,12 @@ class App extends React.Component {
     return (<div>
       <h1>Send a Message</h1>
       <Message sendMessage={this.sendMessage}/>
-      <List texts={this.state.texts}/>
+      {this.state.texts.map(text => {
+        return(
+          <List text={text.smsMessage}/>
+        )
+      })}
+
     </div>)
   }
 }

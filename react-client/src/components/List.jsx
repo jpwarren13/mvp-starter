@@ -4,7 +4,7 @@ import ListItem from './ListItem.jsx';
 const List = (props) => (
   <div>
     <h4> List Component </h4>
-    There are { props.texts.length } items.
+    { props.text}
     {/* { props.items.map(item => <ListItem item={item}/>)} */}
   </div>
 )
