@@ -15,7 +15,6 @@ class App extends React.Component {
     this.sendMessage.bind(this);
   }
 
-
   componentDidMount(){
     axios({
       method:'get',
@@ -26,11 +25,6 @@ class App extends React.Component {
     })
   }
   
-
- 
-
-
-
   sendMessage(phoneNumber, smsMessage){
     console.log('[CLIENT]: Inside sendMessage', phoneNumber, smsMessage);
     const options = {
@@ -55,11 +49,13 @@ class App extends React.Component {
     return (<div>
       <h1>Send a Message</h1>
       <Message sendMessage={this.sendMessage}/>
+      <div className='messages'> 
       {this.state.texts.map(text => {
         return(
-          <List text={text.smsMessage}/>
+          <List text={text.smsMessage} outgoing={text.outgoing}/>
         )
       })}
+      </div>
 
     </div>)
   }

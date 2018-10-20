@@ -55,8 +55,8 @@ app.post('/smsout', (req, res) => {
 });
 
 app.post('/smsin', (req, res) => {
-  let rawNumber = req.body.phoneNumber.replace(/[^0-9]/g, '');
-  let phoneNumber = '+1' + rawNumber;
+//console.log('##### SMS IN', req.body)
+  let phoneNumber = req.body.From;
   let smsMessage = req.body.Body;
   let outgoing = false;
 

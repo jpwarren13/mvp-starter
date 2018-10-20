@@ -1,0 +1,21 @@
+
+.outgoing{
+  background-color: #0076FF;
+  color: white;
+  text-align: right;
+  width: 100%;
+  float: right;
+}
+
+.incoming{
+  background-color: #8E8E93;
+  color: black;
+  text-align: left;
+  width: 100%;
+}
+
+.messages{
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+}
