@@ -16,7 +16,7 @@ const MessagingResponse = require('twilio').twiml.MessagingResponse;
 //EXPRESS SETUP//
 var app = express();
 app.use(cors());
-app.use(express.static(path.join('/home/jpw/HR/hratx37-mvp-starter/react-client/dist/')));
+app.use(express.static(path.join('/home/jpw/code/hratx37-mvp-starter/react-client/dist/')));
 
 app.use(bodyParser.urlencoded({ extended: false }))
  

@@ -12,10 +12,17 @@ class App extends React.Component {
     this.state = { 
       texts: []
     }
-    this.sendMessage.bind(this);
+    this.sendMessage = this.sendMessage.bind(this);
+    this.getMessages = this.getMessages.bind(this);
+
   }
 
   componentDidMount(){
+    this.getMessages();
+    setInterval(this.getMessages, 2000);
+  }
+
+  getMessages(){
     axios({
       method:'get',
       url:'http://127.0.0.1:3000/recieveTexts',
